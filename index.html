@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Tic Tac Toe</title>
+	<title>Tic Tac Toe - Dungeon of Eternal Tie</title>
 
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
@@ -14,7 +14,7 @@
 <div class="main-frame">
 	<h1> 
 		<span class="lil-title">tic tac toe</span> 
-		<span class="big-title"> DUNGE<span class="skull-title"></span>N</span> 
+		<span class="big-title"> DUNGE<span id="skull" class="skull-title"></span>N</span> 
 		<span class="other-title">of Eternal Tie </span> 
 	</h1>
 
@@ -37,7 +37,12 @@
 		
 	</div>
 
+	<div id="loseMessage" class="result result_lose hide"><span>Congratulations</span> You find a way to lose!</div>
+	<div id="tieMessage" class="result result_tie hide"><span>mwahahaha</span> You're trapped in the <br><strong>Eternal Tie</strong></div>
+
+
 		<table id="tttTable">
+			
 			<tr>
 				<td></td>
 				<td></td>

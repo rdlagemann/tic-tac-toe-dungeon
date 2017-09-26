@@ -82,9 +82,56 @@ table tr th:last-child {
 
 h1 {	
 	background-image: radial-gradient( circle closest-side, rgba(140, 56, 48, 0.2), rgba(0,0,0,0));
-
 }
 
+.game-area{
+	position: relative;
+	z-index: 1;
+}
+
+.result {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 90%;
+	width: 100%;
+	z-index: 99;
+	
+	
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+
+	font-family: 'Princess Sofia', cursive;
+	font-size: 32px;
+
+
+	transition: all .5s linear;
+}
+
+.result span {
+	font-family: 'MedievalSharp', cursive;
+	font-size: 22px;
+}
+
+.result_lose {
+	text-shadow: 0 0 10px #f1c40f;
+}
+
+.result_lose span {
+	color: #f1c40f;
+	
+}
+
+.result_tie {
+	text-shadow: 0 0 10px #e74c3c;
+}
+
+.result_tie span {
+	color: #e74c3c;
+	
+}
 
 .lil-title {
 	font-family: 'Princess Sofia', cursive;
@@ -92,7 +139,6 @@ h1 {
 	font-weight: normal;
 	display: block;
 	text-align: center;
-
 }
 
 .big-title {
@@ -117,7 +163,6 @@ h1 {
 	background: url(../img/skull.svg);
 	min-width: 50px;
 	min-height: 50px;
-
 }
 
 .main-frame {
@@ -216,6 +261,11 @@ button {
 	transition: all .2s ease-out;
 }
 
+.invalid-move {
+	background-color: rgba(200, 20, 0, 0.3);
+	transition: all 0.3s linear;
+}
+
 .hide {
 	display: none;
 }
@@ -252,13 +302,28 @@ button {
 	font-size: 20px;
 }
 
-@keyframes zoom {
-  0% { color: lightblue; }
-  100%{ color: #e74c3c; font-size: 20px; }
-  
+/* shake animation thanks to https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
+.shake-it {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
-.zoomer {
-  animation-name: zoom;
-  animation-duration: .2s;  
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(0, -1px, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(0, 2px, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(0, 4px, 0);
+  }
 }

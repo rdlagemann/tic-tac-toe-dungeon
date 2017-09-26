@@ -3,7 +3,8 @@ const gameBoard = (function() {
 	// useful references
 	let context, table, cells,
 		currentPlayer, humanPlayer, cpuPlayer,
-		humanScore, cpuScore;
+		humanScore, cpuScore,
+		loseMessage;
 
 	const checker = {};
 
@@ -23,6 +24,10 @@ const gameBoard = (function() {
 
 		currentPlayer = humanPlayer = player;
 		cpuPlayer = playerCPU;
+
+		loseMessage = context.document.getElementById('loseMessage');
+		tieMessage = context.document.getElementById('tieMessage');
+
 
 		// extend and config table cells 
 		Array.from(cells).forEach(function(element) {
@@ -60,10 +65,8 @@ const gameBoard = (function() {
 
 			return result;
 		}
-
-		else if (!checkTest.win && (getFreeCells(cels).length === 0)) {
-			// console.log('checkWin: TIE');
-			
+		// tie
+		else if (!checkTest.win && (getFreeCells(cels).length === 0)) {		
 			result.win = false;
 			result.shouldReset = true;
 
@@ -90,7 +93,6 @@ const gameBoard = (function() {
 	const emptyBlocks = function(newCells) {
 		let emps = [];
 		newCells.forEach( (el, index) => {
-			// console.log('el = ', el);
 			if (el.getValue() === 'noWeapon') {
 				emps.push(index);
 			}
@@ -175,11 +177,17 @@ const gameBoard = (function() {
 			}
 		}
 
-		// console.log(moves[bestMove]);
-
 		return moves[bestMove];	
-
 	};
+
+	const showResult = function showResult(who) {
+		if (who === 'cpu') {
+			loseMessage.classList.remove( 'hide' );
+		}
+
+		setTimeout( () => loseMessage.classList.add( 'hide' ), 1000 );
+
+	}
 	
 	const cpuPlay = function playcpu() {
 		// TODO: Implement AI
@@ -189,21 +197,28 @@ const gameBoard = (function() {
 			return;
 		}
 
-		let result, move;
+		let result,
+			move,
+			middle;
 
 		currentPlayer = cpuPlayer;	
 
-		console.log(freeCells.length);
-
-		if (freeCells.length === 8) {
-			for (let i = 0; i < cells.length; i += 2) {
+		/* speed up some minimax basic steps */
+		middle = (cells.length - 1) / 2;
+		
+		if (freeCells.length === cells.length - 1) {
+			for (let i = 0; i < cells.length; i += 1) {
 				if (cells[i].getValue() !== 'noWeapon') {
-					if (i % 2 === 0 && i !== 4) {
-						move = 4;
+					if (i % 2 === 0 && i !== middle) {
+						move = middle;
 						break;
 					}
-					else if (i === 4) {
+					else if ( (i === middle) || (i === 1) ) {
 						move = 0;
+						break;
+					}
+					else if ((i % 2 === 1) && (i !== 1)) {
+						move = i % (middle - 1);
 						break;
 					}
 				}
@@ -212,16 +227,15 @@ const gameBoard = (function() {
 		else {
 			move = bestSpot();
 		}
-		
+
 		cells[move].setValue( cpuPlayer._weapon.getValue() );
 		cells[move].draw();		
 
 		result = checkWin(cells);	
 
-		console.log(result);
-
 		if (result.win) {
 			cpuScore.innerText = ' ' + (parseInt(cpuScore.innerText) + 1);
+			showResult('cpu');
 			clearBoard();
 		}
 		else if (result.shouldReset) {
@@ -247,7 +261,14 @@ const gameBoard = (function() {
 
 				return;
 			}
-			else if (result.shouldReset){
+			else if (result.shouldReset) {
+				context.skull.classList.add( 'shake-it' );
+				tieMessage.classList.remove( 'hide' );
+				setTimeout( () => {
+					context.skull.classList.remove( 'shake-it' );
+					tieMessage.classList.add( 'hide' );
+				}, 1500 );
+
 				clearBoard();
 			}
 			else {
@@ -256,7 +277,9 @@ const gameBoard = (function() {
 
 		}
 		else {
-			console.log('invalid move');
+			this.classList.add( 'invalid-move' );
+			setTimeout( () => this.classList.remove( 'invalid-move' ), 500 );
+
 		}
 		
 	}
