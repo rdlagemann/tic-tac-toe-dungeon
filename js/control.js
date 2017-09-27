@@ -1,4 +1,3 @@
-
 const Player = (function player () {	
 	let _name,
 		_weapon;
@@ -41,7 +40,6 @@ const cpu = new Player('cpu', 'o');
 		weaponArea.classList.add( 'hide' );
 		gameArea.classList.remove( 'hide' );
 		footer.classList.add( 'hide' );
-
 
 		cpu.configWeaponBasedOn( human );
 		gameBoard.init( window, human, cpu);

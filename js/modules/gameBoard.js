@@ -206,7 +206,7 @@ const gameBoard = (function() {
 		/* speed up some minimax basic steps */
 		middle = (cells.length - 1) / 2;
 		
-		if (freeCells.length === cells.length - 1) {
+		if ((freeCells.length === cells.length - 1)) {
 			for (let i = 0; i < cells.length; i += 1) {
 				if (cells[i].getValue() !== 'noWeapon') {
 					if (i % 2 === 0 && i !== middle) {
