@@ -1,4 +1,4 @@
-## Tic-tac-toe game  
+## Tic-tac-toe Dungeon  
+The dungeon of Ethernal Tie.
 
-[wip]Free Code Camp Project
 
